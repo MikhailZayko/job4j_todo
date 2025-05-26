@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:include="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/navigation :: navigation"></div>
+<div class="container-fluid p-0">
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Описание задания</h2>
+
+        <div class="mb-3">
+            <label for="title" class="form-label"><b>Имя</b></label>
+            <input type="text" class="form-control" id="title" name="title" th:value="${task.title}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label"><b>Описание</b></label>
+            <textarea class="form-control" id="description" name="description" rows="5" th:text="${task.description}" readonly></textarea>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a th:href="@{/tasks/complete/{id}(id=${task.id})}" class="btn btn-success mx-2">Выполнено</a>
+            <a th:href="@{/tasks/update/{id}(id=${task.id})}" class="btn btn-primary mx-2">Редактировать</a>
+            <a th:href="@{/tasks/delete/{id}(id=${task.id})}" class="btn btn-danger mx-2">Удалить</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
