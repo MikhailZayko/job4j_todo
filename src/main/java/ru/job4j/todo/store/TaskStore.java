@@ -62,17 +62,17 @@ public class TaskStore {
     }
 
     private <T> T transaction(Function<Session, T> command) {
-        T result = null;
         Transaction transaction = null;
         try (Session session = sf.openSession()) {
             transaction = session.beginTransaction();
-            result = command.apply(session);
+            T result = command.apply(session);
             transaction.commit();
+            return result;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw e;
         }
-        return result;
     }
 }

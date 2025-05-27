@@ -46,11 +46,13 @@ public class TaskController {
 
     @GetMapping("/tasks/complete/{id}")
     public String completeTaskById(@PathVariable int id, Model model) {
-        boolean updated = taskService.updateDone(id);
-        if (!updated) {
-            return notFound(model);
+        try {
+            taskService.updateDone(id);
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+            return "errors/500";
         }
-        return "redirect:/";
     }
 
     @GetMapping("/tasks/update/{id}")
@@ -65,12 +67,13 @@ public class TaskController {
 
     @PostMapping("/tasks/update")
     public String updateTask(@ModelAttribute Task task, Model model) {
-        boolean updated = taskService.update(task);
-        if (!updated) {
-            model.addAttribute("message", "Не удалось обновить задачу");
-            return "errors/404";
+        try {
+            taskService.update(task);
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+            return "errors/500";
         }
-        return "redirect:/";
     }
 
     @GetMapping("/tasks/delete/{id}")
