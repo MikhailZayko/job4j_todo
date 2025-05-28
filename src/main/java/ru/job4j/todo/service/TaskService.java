@@ -18,8 +18,8 @@ public class TaskService {
         return taskStore.create(task);
     }
 
-    public boolean update(Task task) {
-        return taskStore.update(task);
+    public void update(Task task) {
+        taskStore.update(task);
     }
 
     public boolean delete(int id) {
@@ -42,7 +42,7 @@ public class TaskService {
         return taskStore.findById(id);
     }
 
-    public boolean updateDone(int id) {
-        return taskStore.updateDone(id);
+    public void updateDone(int id) {
+        taskStore.updateDone(id);
     }
 }
