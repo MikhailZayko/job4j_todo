@@ -9,6 +9,7 @@
         <thead>
         <tr>
             <th scope="col">Имя</th>
+            <th scope="col">Пользователь</th>
             <th scope="col">Дата создания</th>
             <th scope="col">Статус</th>
         </tr>
@@ -16,6 +17,7 @@
         <tbody>
         <tr th:each="task : ${tasks}">
             <td><a th:text="${task.title}" th:href="@{/tasks/{id}(id=${task.id})}"></a></td>
+            <td th:text="${task.user.name}"/>
             <td th:text="${#temporals.format(task.created, 'dd.MM.yyyy HH:mm')}"></td>
             <td><span class="badge bg-success text-white">Выполнено</span></td>
         </tr>
