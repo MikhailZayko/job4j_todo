@@ -30,20 +30,20 @@ public class TaskStore {
     }
 
     public List<Task> findAll() {
-        return crudRepository.query("FROM Task", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority", Task.class);
     }
 
     public List<Task> findCompleted() {
-        return crudRepository.query("FROM Task t WHERE t.done = true", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE t.done = true", Task.class);
     }
 
     public List<Task> findUncompleted() {
-        return crudRepository.query("FROM Task t WHERE t.done = false", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE t.done = false", Task.class);
     }
 
     public Optional<Task> findById(int id) {
         return crudRepository.optional(
-                "FROM Task t WHERE t.id = :fId", Task.class,
+                "FROM Task t JOIN FETCH t.priority WHERE t.id = :fId", Task.class,
                 Map.of("fId", id));
     }
 

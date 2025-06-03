@@ -17,6 +17,11 @@
             <textarea class="form-control" id="description" name="description" rows="5" th:text="${task.description}" readonly></textarea>
         </div>
 
+        <div class="mb-3">
+            <label for="priority" class="form-label"><b>Приоритет</b></label>
+            <input type="text" class="form-control" id="priority" name="priority" th:value="${task.priority.name}" readonly>
+        </div>
+
         <div class="d-flex justify-content-center mt-4"
              th:if="${task.user.id} == ${user.id}">
             <a th:href="@{/tasks/complete/{id}(id=${task.id})}" class="btn btn-success mx-2">Выполнено</a>
