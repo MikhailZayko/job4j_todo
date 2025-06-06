@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
@@ -21,6 +22,8 @@ public class TaskController {
 
     private final PriorityService priorityService;
 
+    private final CategoryService categoryService;
+
     @GetMapping
     public String findAllTasks(Model model) {
         model.addAttribute("tasks", taskService.findAll());
@@ -30,12 +33,16 @@ public class TaskController {
     @GetMapping("/tasks/create")
     public String createTask(Model model) {
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "tasks/create";
     }
 
     @PostMapping("/tasks/create")
-    public String createTask(@ModelAttribute Task task, @SessionAttribute("user") User user) {
+    public String createTask(@ModelAttribute Task task,
+                             @SessionAttribute("user") User user,
+                             @RequestParam("categoryId") List<Integer> categoryIds) {
         task.setUser(user);
+        task.setCategories(categoryService.findByIds(categoryIds));
         taskService.create(task);
         return "redirect:/";
     }
@@ -69,14 +76,18 @@ public class TaskController {
         }
         model.addAttribute("task", taskOptional.get());
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "tasks/update";
     }
 
     @PostMapping("/tasks/update")
-    public String updateTask(@ModelAttribute Task task, @SessionAttribute("user") User user,
-                             Model model) {
+    public String updateTask(@ModelAttribute Task task,
+                             @SessionAttribute("user") User user,
+                             Model model,
+                             @RequestParam("categoryId") List<Integer> categoryIds) {
         try {
             task.setUser(user);
+            task.setCategories(categoryService.findByIds(categoryIds));
             taskService.update(task);
             return "redirect:/";
         } catch (Exception e) {

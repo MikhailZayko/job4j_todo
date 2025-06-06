@@ -12,6 +12,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TaskStore {
 
+    private static final String FROM = "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories ";
+
     private final CrudRepository crudRepository;
 
     public Optional<Task> create(Task task) {
@@ -30,20 +32,20 @@ public class TaskStore {
     }
 
     public List<Task> findAll() {
-        return crudRepository.query("FROM Task t JOIN FETCH t.priority", Task.class);
+        return crudRepository.query(FROM, Task.class);
     }
 
     public List<Task> findCompleted() {
-        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE t.done = true", Task.class);
+        return crudRepository.query(FROM + "WHERE t.done = true", Task.class);
     }
 
     public List<Task> findUncompleted() {
-        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE t.done = false", Task.class);
+        return crudRepository.query(FROM + "WHERE t.done = false", Task.class);
     }
 
     public Optional<Task> findById(int id) {
         return crudRepository.optional(
-                "FROM Task t JOIN FETCH t.priority WHERE t.id = :fId", Task.class,
+                FROM + "WHERE t.id = :fId", Task.class,
                 Map.of("fId", id));
     }
 

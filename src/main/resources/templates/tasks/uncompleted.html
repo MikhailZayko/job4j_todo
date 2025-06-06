@@ -13,6 +13,7 @@
             <th scope="col">Пользователь</th>
             <th scope="col">Дата создания</th>
             <th scope="col">Приоритет</th>
+            <th scope="col">Категории</th>
             <th scope="col">Статус</th>
         </tr>
         </thead>
@@ -22,6 +23,9 @@
             <td th:text="${task.user.name}"/>
             <td th:text="${#temporals.format(task.created, 'dd.MM.yyyy HH:mm')}"></td>
             <td th:text="${task.priority.name}"/>
+            <td>
+                <div th:each="category : ${task.categories}" th:text="${category.name}"></div>
+            </td>
             <td><span class="badge bg-danger text-white">Не выполнено</span></td>
         </tr>
         </tbody>

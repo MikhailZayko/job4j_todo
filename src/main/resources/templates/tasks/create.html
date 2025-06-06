@@ -20,6 +20,17 @@
                 <option th:each="priorityId : ${priorities}" th:value="${priorityId.id}" th:text="${priorityId.name}"></option>
             </select>
         </div>
+        <div class="mb-3">
+            <label for="categories"><b>Категория</b></label>
+            <div id="categories">
+                <div th:each="category : ${categories}">
+                    <label>
+                        <input type="checkbox" name="categoryId" th:value="${category.id}">
+                        <span th:text="${category.name}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
         <div class="mb-3 row">
             <div class="col-6"></div>
             <div class="col-6">
