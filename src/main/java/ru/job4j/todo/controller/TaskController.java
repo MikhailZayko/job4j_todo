@@ -25,8 +25,8 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String findAllTasks(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String findAllTasks(Model model, @SessionAttribute("user") User user) {
+        model.addAttribute("tasks", taskService.findAll(user));
         return "tasks/list";
     }
 
@@ -106,15 +106,15 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/completed")
-    public String findCompletedTasks(Model model) {
-        List<Task> completedTasks = taskService.findCompleted();
+    public String findCompletedTasks(Model model, @SessionAttribute("user") User user) {
+        List<Task> completedTasks = taskService.findCompleted(user);
         model.addAttribute("tasks", completedTasks);
         return "tasks/completed";
     }
 
     @GetMapping("/tasks/uncompleted")
-    public String showUncompletedTasks(Model model) {
-        List<Task> uncompletedTasks = taskService.findUncompleted();
+    public String showUncompletedTasks(Model model, @SessionAttribute("user") User user) {
+        List<Task> uncompletedTasks = taskService.findUncompleted(user);
         model.addAttribute("tasks", uncompletedTasks);
         return "tasks/uncompleted";
     }
